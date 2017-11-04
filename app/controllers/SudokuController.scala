@@ -11,6 +11,10 @@ class SudokuController @Inject()(cc: ControllerComponents) extends AbstractContr
   val gameController = Sudoku.controller
   def sudokuAsText =  gameController.gridToString + GameStatus.message(gameController.gameStatus)
 
+  def about= Action {
+    Ok(views.html.index())
+  }
+
   def sudoku = Action {
     Ok(views.html.sudoku(gameController))
   }
