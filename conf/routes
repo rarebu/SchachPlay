@@ -6,6 +6,7 @@
 
 GET     /                           controllers.SudokuController.sudoku
 GET     /new                        controllers.SudokuController.newGrid
+GET     /resize/:size                      controllers.SudokuController.resize(size:Int)
 
 GET     /about                      controllers.SudokuController.about
 
