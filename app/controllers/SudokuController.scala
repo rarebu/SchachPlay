@@ -108,4 +108,9 @@ class SudokuController @Inject() (
       out ! (gameController.toJson.toString)
     }
   }
+
+  def resize(size:Int)= Action {
+    gameController.resize(size)
+    Ok(views.html.sudoku(gameController))
+  }
 }
