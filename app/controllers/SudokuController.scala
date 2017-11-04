@@ -19,4 +19,9 @@ class SudokuController @Inject()(cc: ControllerComponents) extends AbstractContr
     gameController.createNewGrid
     Ok(views.html.sudoku(gameController))
   }
+
+  def resize(size:Int)= Action {
+    gameController.resize(size)
+    Ok(views.html.sudoku(gameController))
+  }
 }
