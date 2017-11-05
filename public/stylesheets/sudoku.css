@@ -2,25 +2,73 @@ a:link {
     color: black;
 }
 
-.pagecontainer {
-    width: 33.5em;
-    margin: auto;
-    margin-top: 1em;
-    display: block;
+@media (min-width: 480px) {
+    .pagecontainer {
+        width: 29em;
+        margin: auto;
+        margin-top: 1em;
+        display: block;
+    }
+
+    .gamecontainer {
+        height: 100%;
+        width: 100%;
+        display: inline-flex;
+        margin: 0em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        font-size:30px;
+        line-height: 33px;
+        font-family: "Verdana",Geneva, sans-serif;
+        font-weight: bold;
+        color:black;
+    }
 }
 
-.gamecontainer {
-    height: 100%;
-    width: 100%;
-    display: inline-flex;
-    margin: 0em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    font-size:40px;
-    line-height: 44px;
-    font-family: "Verdana",Geneva, sans-serif;
-    font-weight: bold;
-    color:black;
+@media (min-width: 800px) {
+    .pagecontainer {
+        width: 33.5em;
+        margin: auto;
+        margin-top: 1em;
+        display: block;
+    }
+
+    .gamecontainer {
+        height: 100%;
+        width: 100%;
+        display: inline-flex;
+        margin: 0em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        font-size:40px;
+        line-height: 44px;
+        font-family: "Verdana",Geneva, sans-serif;
+        font-weight: bold;
+        color:black;
+    }
+}
+
+@media (min-width: 1000px) {
+    .pagecontainer {
+        width: 51em;
+        margin: auto;
+        margin-top: 1em;
+        display: block;
+    }
+
+    .gamecontainer {
+        height: 100%;
+        width: 100%;
+        display: inline-flex;
+        margin: 0em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        font-size:60px;
+        line-height: 66px;
+        font-family: "Verdana",Geneva, sans-serif;
+        font-weight: bold;
+        color:black;
+    }
 }
 
 .buttonbarcontainer {
