@@ -1,12 +1,31 @@
+a:link {
+    color: black;
+}
+
+.pagecontainer {
+    width: 33.5em;
+    margin: auto;
+    margin-top: 1em;
+    display: block;
+}
+
 .gamecontainer {
     height: 100%;
     width: 100%;
-    margin: 1em;
-    display:flex;
+    display: inline-flex;
+    margin: 0em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     font-size:40px;
+    line-height: 44px;
     font-family: "Verdana",Geneva, sans-serif;
     font-weight: bold;
     color:black;
+}
+
+.buttonbarcontainer {
+    margin: auto;
+    display: inline-block;
 }
 
 .game {
@@ -33,13 +52,13 @@
 }
 
 .size9 {
-    width: 4.5em;
-    height: 4.5em;
+    width: 4.3em;
+    height: 4.3em;
 }
 
 .size4 {
-    width: 3em;
-    height: 3em;
+    width: 2.9em;
+    height: 2.9em;
 }
 
 .size1 {
@@ -78,9 +97,10 @@
 .candidatecell {
     display: inline-block; /* switch to inline-block if candidates should show*/
     float:left;
-    font-size: 27.5%;
+    font-size: 25%;
     border-style: outset;
-    border-width: 0.125em;
-    width: 1.2em;
-    height: 1.2em;
+    border-width: 0.1em;
+    width: 1.45em;
+    height: 1.5em;
+    line-height: 1.5em;
 }

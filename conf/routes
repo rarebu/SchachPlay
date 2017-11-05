@@ -6,7 +6,11 @@
 
 GET     /                           controllers.SudokuController.sudoku
 GET     /new                        controllers.SudokuController.newGrid
+GET     /solve                      controllers.SudokuController.solve
+GET     /highlight/:index           controllers.SudokuController.highlight(index:Int)
 GET     /resize/:size               controllers.SudokuController.resize(size:Int)
+GET     /set/:row/:col/:value       controllers.SudokuController.set(row:Int,col:Int, value:Int)
+GET     /showCandidates/:row/:col   controllers.SudokuController.showCandidates(row:Int, col:Int)
 
 GET     /about                      controllers.SudokuController.about
 
