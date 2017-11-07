@@ -15,9 +15,10 @@
 @col(scalar:Int)=@{(scalar %blocksize) + (blocksize *(scalar/size)) - (size*(scalar/(size*blocksize)))}
 @cell(houseIndex:Int, cellIndex:Int) = @{controller.cell(row(toScalar(houseIndex,cellIndex)),col(toScalar(houseIndex,cellIndex)))}
 
+
+
 @main("HTWG Sudoku") {
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/sudoku.css")' />
-    <script src='@routes.Assets.versioned("javascripts/bootstrap.min.js")'> </script>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">HTWG Sudoku</a>
@@ -83,27 +84,6 @@
                     <div class="house size@size">
                         @for(cellIndex <- 0 until size) {
                             <div class="cell">
-                                @if(cell(houseIndex,cellIndex).isSet) {
-                                    <div class="@{"number "+cellMode(houseIndex, cellIndex)}">@{cell(houseIndex,cellIndex).toString.take(1)}</div>} else {
-                                    @if(!cell(houseIndex, cellIndex).showCandidates) {
-                                        <div class="@{
-                                            "number " + cellMode(houseIndex, cellIndex)
-                                        }">
-                                            <a href="/showCandidates/@row(toScalar(houseIndex,cellIndex))/@col(toScalar(houseIndex,cellIndex))">&nbsp;</a>
-                                        </div>
-                                    } else {
-                                        @for(candidateIndex <- 1 to size) {
-                                            <div class="@{
-                                                "candidatecell " + cellMode(houseIndex, cellIndex)
-                                            }">
-                                            <a href="/set/@row(toScalar(houseIndex,cellIndex))/@col(toScalar(houseIndex,cellIndex))/@candidateIndex">@candidateIndex</a>
-                                            </div>
-                                            @if(candidateIndex % blocksize == blocksize) {
-                                                <div class="clear"></div>
-                                            }
-                                        }
-                                    }
-                                }
                                 @if(cellIndex % blocksize==blocksize-1){<div class="clear"></div>}
                             </div>
                         }
