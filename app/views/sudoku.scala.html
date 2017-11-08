@@ -83,7 +83,7 @@
                 @for(houseIndex <- 0 until size) {
                     <div class="house size@size">
                         @for(cellIndex <- 0 until size) {
-                            <div class="cell">
+                            <div class="cell" id="scalar@{toScalar(houseIndex, cellIndex)}">
                                 @if(cellIndex % blocksize==blocksize-1){<div class="clear"></div>}
                             </div>
                         }
