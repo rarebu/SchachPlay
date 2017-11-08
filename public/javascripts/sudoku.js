@@ -42,7 +42,6 @@ function fillGrid() {
 $( document ).ready(function() {
     console.log( "Document is ready, filling grid" );
     fillGrid();
-    $("#scalar1").html(gameJson[1][1]);
 });
 
 
