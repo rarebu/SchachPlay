@@ -1,5 +1,5 @@
-var size = 9
-var blocksize =3
+let size = 9
+let blocksize =3
 
 
 function toScalar(house, cell) {
@@ -18,9 +18,10 @@ function cell(houseIndex, cellIndex) {
     return row(toScalar(houseIndex,cellIndex)),col(toScalar(houseIndex,cellIndex))
 }
 
-var gameJson = {
-    0: {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9},
-    1: {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9} ,
+let gameJson = {
+    size:9,
+    0: {0:0,1:2,2:0,3:4,4:5,5:0,6:7,7:8,8:9},
+    1: {0:1,1:0,2:3,3:0,4:5,5:6,6:7,7:8,8:9} ,
     2: {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9},
     3: {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9},
     4: {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9},
@@ -30,18 +31,60 @@ var gameJson = {
     8: {0:1,1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9},
 };
 
-function fillGrid() {
-    for (var scalar=0; scalar <81;scalar++) {
-            console.log( "Scalar" + scalar+":" + row(scalar) );
-            $("#scalar"+scalar).html(gameJson[row(scalar)][col(scalar)]);
+class Grid {
+    constructor(size){
+        this.size = size;
+        this.cells = [];
+    }
+
+    fill(json) {
+        for (let scalar=0; scalar <this.size*this.size;scalar++) {
+            this.cells[scalar]=(json[row(scalar)][col(scalar)]);
+        }
     }
 }
 
+let grid = new Grid(gameJson.size)
+grid.fill(gameJson)
 
+function fillGrid(grid) {
+    for (let scalar=0; scalar <grid.size*grid.size;scalar++) {
+        if (grid.cells[scalar] != 0) {
+            $("#scalar"+scalar).html(grid.cells[scalar]);
+        }
+    }
+}
+
+function showCandidates(scalar) {
+    let html =""
+    for (let candidateIndex=1; candidateIndex <= size;candidateIndex++) {
+        html = html + " <div class='candidatecell' onclick='setCell("+scalar+","+candidateIndex+")'> " +candidateIndex + "</div>"
+        if (candidateIndex % blocksize == blocksize) html = html + "<div class='clear'></div>"
+    }
+    $("#scalar"+scalar).html(html)
+}
+
+function setCell(scalar, value) {
+    console.log("Setting cell " + scalar + " to " + value);
+    grid.cells[scalar] = value;
+    $("#scalar"+scalar).html(" "+grid.cells[scalar]);
+    $("#scalar"+scalar).off("click");
+
+}
+
+function registerClickListener() {
+    for (let scalar=0; scalar <grid.size*grid.size;scalar++) {
+        if (grid.cells[scalar] == 0) {
+            $("#scalar"+scalar).click(function() {showCandidates(scalar)});
+        }
+    }
+}
 
 $( document ).ready(function() {
     console.log( "Document is ready, filling grid" );
-    fillGrid();
+    fillGrid(grid);
+    registerClickListener();
+
 });
 
 
