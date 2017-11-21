@@ -5,6 +5,8 @@ import javax.inject._
 import play.api.mvc._
 import de.htwg.se.sudoku.Sudoku
 import de.htwg.se.sudoku.controller.controllerComponent.GameStatus
+//import play.api.libs.json.Json
+
 
 @Singleton
 class SudokuController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
@@ -48,5 +50,9 @@ class SudokuController @Inject()(cc: ControllerComponents) extends AbstractContr
   def showCandidates(row:Int, col:Int)= Action {
     gameController.showCandidates(row,col)
     Ok(views.html.sudoku(gameController, message))
+  }
+
+  def gridToJson = Action {
+    Ok(gameController.toJson)
   }
 }

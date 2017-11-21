@@ -14,6 +14,7 @@ GET     /showCandidates/:row/:col   controllers.SudokuController.showCandidates(
 
 GET     /about                      controllers.SudokuController.about
 
+GET     /json                       controllers.SudokuController.gridToJson
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

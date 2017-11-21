@@ -77,7 +77,7 @@ function registerClickListener() {
 function loadJson() {
     $.ajax({
         method: "GET",
-        url: "/assets/data/grid.json",
+        url: "/json",
         dataType: "json",
 
         success: function (result) {

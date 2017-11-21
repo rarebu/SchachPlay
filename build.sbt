@@ -1,5 +1,5 @@
 
-name := """HTWG-play-scala-seed"""
+name := """HTWG Sudoku"""
 
 version := "1.0-SNAPSHOT"
 
