@@ -5,11 +5,15 @@ import javax.inject._
 import play.api.mvc._
 import de.htwg.se.sudoku.Sudoku
 import de.htwg.se.sudoku.controller.controllerComponent.GameStatus
-//import play.api.libs.json.Json
+import play.api.libs.streams.ActorFlow
+import akka.actor.ActorSystem
+import akka.stream.Materializer
+import akka.actor._
+
 
 
 @Singleton
-class SudokuController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class SudokuController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) {
   val gameController = Sudoku.controller
   def message = GameStatus.message(gameController.gameStatus)
   def sudokuAsText =  gameController.gridToString + message
@@ -54,5 +58,28 @@ class SudokuController @Inject()(cc: ControllerComponents) extends AbstractContr
 
   def gridToJson = Action {
     Ok(gameController.toJson)
+  }
+
+  def socket = WebSocket.accept[String, String] { request =>
+    ActorFlow.actorRef { out =>
+      println("Connect received")
+      MyWebSocketActor.props(out)
+    }
+  }
+
+  object MyWebSocketActor {
+    def props(out: ActorRef) = {
+      println("Object created")
+      Props(new MyWebSocketActor(out))
+    }
+  }
+
+  class MyWebSocketActor(out: ActorRef) extends Actor {
+    println("Class created")
+    def receive = {
+      case msg: String =>
+        out ! ("I received your message: " + msg)
+        println("Received message "+ msg)
+    }
   }
 }

@@ -101,9 +101,41 @@ function loadJson() {
     });
 }
 
+function connectWebSocket() {
+    console.log("Connecting to Websocket");
+    var websocket = new WebSocket("ws://localhost:9000/websocket");
+    console.log("Connected to Websocket");
+
+    websocket.onopen = function(event) {
+        console.log("Trying to connect to Server");
+        websocket.send("Trying to connect to Server");
+    }
+
+    websocket.onclose = function () {
+        console.log('Connection Closed!');
+    };
+
+    websocket.onerror = function (error) {
+        console.log('Error Occured: ' + error);
+    };
+
+    websocket.onmessage = function (e) {
+        if (typeof e.data === "string") {
+            console.log('String message received: ' + e.data);
+        }
+        else if (e.data instanceof ArrayBuffer) {
+            console.log('ArrayBuffer received: ' + e.data);
+        }
+        else if (e.data instanceof Blob) {
+            console.log('Blob received: ' + e.data);
+        }
+    };
+}
+
 $( document ).ready(function() {
     console.log( "Document is ready, filling grid" );
     loadJson();
+    connectWebSocket()
 });
 
 
