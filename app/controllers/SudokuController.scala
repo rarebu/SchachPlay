@@ -4,11 +4,13 @@ import javax.inject._
 
 import play.api.mvc._
 import de.htwg.se.sudoku.Sudoku
-import de.htwg.se.sudoku.controller.controllerComponent.GameStatus
+import de.htwg.se.sudoku.controller.controllerComponent.{CandidatesChanged, CellChanged, GameStatus, GridSizeChanged}
 import play.api.libs.streams.ActorFlow
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import akka.actor._
+
+import scala.swing.Reactor
 
 
 
@@ -63,23 +65,34 @@ class SudokuController @Inject()(cc: ControllerComponents) (implicit system: Act
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef { out =>
       println("Connect received")
-      MyWebSocketActor.props(out)
+      SudokuWebSocketActorFactory.create(out)
     }
   }
 
-  object MyWebSocketActor {
-    def props(out: ActorRef) = {
-      println("Object created")
-      Props(new MyWebSocketActor(out))
+  object SudokuWebSocketActorFactory {
+    def create(out: ActorRef) = {
+      Props(new SudokuWebSocketActor(out))
     }
   }
 
-  class MyWebSocketActor(out: ActorRef) extends Actor {
-    println("Class created")
+  class SudokuWebSocketActor(out: ActorRef) extends Actor with Reactor{
+    listenTo(gameController)
+
     def receive = {
       case msg: String =>
-        out ! ("I received your message: " + msg)
-        println("Received message "+ msg)
+        out ! (gameController.toJson.toString)
+        println("Sent Json to Client"+ msg)
+    }
+
+    reactions += {
+      case event: GridSizeChanged => sendJsonToClient
+      case event: CellChanged     => sendJsonToClient
+      case event: CandidatesChanged => sendJsonToClient
+    }
+
+    def sendJsonToClient = {
+      println("Received event from Controller")
+      out ! (gameController.toJson.toString)
     }
   }
 }

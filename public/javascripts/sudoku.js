@@ -102,33 +102,30 @@ function loadJson() {
 }
 
 function connectWebSocket() {
-    console.log("Connecting to Websocket");
     var websocket = new WebSocket("ws://localhost:9000/websocket");
-    console.log("Connected to Websocket");
+    websocket.setTimeout
 
     websocket.onopen = function(event) {
-        console.log("Trying to connect to Server");
-        websocket.send("Trying to connect to Server");
+        console.log("Connected to Websocket");
     }
 
     websocket.onclose = function () {
-        console.log('Connection Closed!');
+        console.log('Connection with Websocket Closed!');
     };
 
     websocket.onerror = function (error) {
-        console.log('Error Occured: ' + error);
+        console.log('Error in Websocket Occured: ' + error);
     };
 
     websocket.onmessage = function (e) {
         if (typeof e.data === "string") {
-            console.log('String message received: ' + e.data);
+            let json = JSON.parse(e.data);
+            let cells = json.grid.cells;
+            grid.fill(cells);
+            updateGrid(grid);
+            registerClickListener();
         }
-        else if (e.data instanceof ArrayBuffer) {
-            console.log('ArrayBuffer received: ' + e.data);
-        }
-        else if (e.data instanceof Blob) {
-            console.log('Blob received: ' + e.data);
-        }
+
     };
 }
 
