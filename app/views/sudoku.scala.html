@@ -18,6 +18,9 @@
 
 
 @main("HTWG Sudoku") {
+    <script src="@routes.Assets.versioned("javascripts/vue.js")" ></script>
+    <script src="@routes.Assets.versioned("javascripts/sudokuVue.js")" ></script>
+
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/sudoku.css")' />
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,11 +44,8 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Highlight
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/highlight/0">None</a>
-                        @for(hilite <- 1 to size) {
-                            <a class="dropdown-item" href="/highlight/@hilite">@hilite</a>
-                        }
+                    <div id="sudoku-vue-menu" class=" dropdown-menu"  aria-labelledby="navbarDropdown">
+                            <a  v-for="item in menuItems" class="dropdown-item" v-bind:href="item.link">{{item.text}}</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -63,38 +63,29 @@
         </div>
     </nav>
 
-    <div class="pagecontainer">
-        <div class="buttonbarcontainer">
-            <label>
-                Highlight
-            </label>
-            <div class="btn-group" >
+    <div id="sudoku-game" class="pagecontainer">
 
-                <a href="/highlight/0" class="btn btn-primary"> None </a>
-                @for(index <- 1 to size) {
-                    <a href="/highlight/@index" class="btn btn-primary"> @index </a>
-                }
-            </div>
-        </div>
+        <sudoku-highlight-button-bar></sudoku-highlight-button-bar>
 
 
         <div class="gamecontainer">
             <div class="game">
-                @for(houseIndex <- 0 until size) {
-                    <div class="house size@size">
-                        @for(cellIndex <- 0 until size) {
-                            <div class="cell" id="scalar@{toScalar(houseIndex, cellIndex)}">
-                                @if(cellIndex % blocksize==blocksize-1){<div class="clear"></div>}
-                            </div>
-                        }
+            @for(houseIndex <- 0 until size) {
+                <div class="house size@size">
+                @for(cellIndex <- 0 until size) {
+                    <div class="cell" id="scalar@{toScalar(houseIndex, cellIndex)}">
+                    @if(cellIndex % blocksize==blocksize-1){<div class="clear"></div>}
                     </div>
-                @if(houseIndex % blocksize==blocksize-1){<div class="clear"></div>}
                 }
+                </div>
+                @if(houseIndex % blocksize==blocksize-1){<div class="clear"></div>}
+            }
             </div>
         </div>
         <div class="alert alert-primary" role="alert">
-            @message
+        @message
         </div>
+
     </div>
 
 }
