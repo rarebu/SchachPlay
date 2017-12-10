@@ -67,21 +67,8 @@
 
         <sudoku-highlight-button-bar></sudoku-highlight-button-bar>
 
+        <sudoku-field></sudoku-field>
 
-        <div class="gamecontainer">
-            <div class="game">
-            @for(houseIndex <- 0 until size) {
-                <div class="house size@size">
-                @for(cellIndex <- 0 until size) {
-                    <div class="cell" id="scalar@{toScalar(houseIndex, cellIndex)}">
-                    @if(cellIndex % blocksize==blocksize-1){<div class="clear"></div>}
-                    </div>
-                }
-                </div>
-                @if(houseIndex % blocksize==blocksize-1){<div class="clear"></div>}
-            }
-            </div>
-        </div>
         <div class="alert alert-primary" role="alert">
         @message
         </div>
