@@ -2,64 +2,77 @@ package controllers
 
 import javax.inject._
 
-import play.api.mvc._
+import akka.actor.{ActorSystem, _}
+import akka.stream.Materializer
+import com.mohiva.play.silhouette.api.Silhouette
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
 import de.htwg.se.sudoku.Sudoku
 import de.htwg.se.sudoku.controller.controllerComponent.{CandidatesChanged, CellChanged, GameStatus, GridSizeChanged}
+import org.webjars.play.WebJarsUtil
+import play.api.i18n.I18nSupport
 import play.api.libs.streams.ActorFlow
-import akka.actor.ActorSystem
-import akka.stream.Materializer
-import akka.actor._
+import play.api.mvc._
+import utils.auth.DefaultEnv
 
+import scala.concurrent.Future
 import scala.swing.Reactor
 
-
-
 @Singleton
-class SudokuController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) {
+class SudokuController @Inject() (
+  components: ControllerComponents,
+  silhouette: Silhouette[DefaultEnv]
+)(
+  implicit
+  webJarsUtil: WebJarsUtil,
+  assets: AssetsFinder,
+  system: ActorSystem,
+  mat: Materializer
+) extends AbstractController(components) with I18nSupport {
+
   val gameController = Sudoku.controller
   def message = GameStatus.message(gameController.gameStatus)
-  def sudokuAsText =  gameController.gridToString + message
+  def sudokuAsText = gameController.gridToString + message
 
-  def about= Action {
-    Ok(views.html.index())
+  /* def about = silhouette.UnsecuredAction { implicit request: Request[AnyContent] =>
+    Ok(views.html.about())
+  } */
+
+  def sudoku = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def sudoku = Action {
-    Ok(views.html.sudoku(gameController, message))
-  }
-
-  def newGrid = Action {
+  def newGrid = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     gameController.createNewGrid
-    Ok(views.html.sudoku(gameController, message))
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def solve = Action {
+  def solve = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     gameController.solve
-    Ok(views.html.sudoku(gameController, message))
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def highlight(index:Int)= Action {
-    gameController.highlight(index)
-    Ok(views.html.sudoku(gameController, message))
+  def highlight(about: Int) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    gameController.highlight(about)
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def resize(size:Int)= Action {
+  def resize(size: Int) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     gameController.resize(size)
-    Ok(views.html.sudoku(gameController, message))
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def set(row:Int, col:Int, value:Int)= Action {
-    gameController.set(row,col, value)
-    Ok(views.html.sudoku(gameController, message))
+  def set(row: Int, col: Int, value: Int) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    gameController.set(row, col, value)
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def showCandidates(row:Int, col:Int)= Action {
-    gameController.showCandidates(row,col)
-    Ok(views.html.sudoku(gameController, message))
+  def showCandidates(row: Int, col: Int) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    gameController.showCandidates(row, col)
+    Future.successful(Ok(views.html.sudoku(gameController, message, request.identity)))
   }
 
-  def gridToJson = Action {
-    Ok(gameController.toJson)
+  def gridToJson = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    Future.successful(Ok(gameController.toJson))
   }
 
   def socket = WebSocket.accept[String, String] { request =>
@@ -75,22 +88,22 @@ class SudokuController @Inject()(cc: ControllerComponents) (implicit system: Act
     }
   }
 
-  class SudokuWebSocketActor(out: ActorRef) extends Actor with Reactor{
+  class SudokuWebSocketActor(out: ActorRef) extends Actor with Reactor {
     listenTo(gameController)
 
     def receive = {
       case msg: String =>
         out ! (gameController.toJson.toString)
-        println("Sent Json to Client"+ msg)
+        println("Sent Json to Client" + msg)
     }
 
     reactions += {
       case event: GridSizeChanged => sendJsonToClient
-      case event: CellChanged     => sendJsonToClient
+      case event: CellChanged => sendJsonToClient
       case event: CandidatesChanged => sendJsonToClient
     }
 
-    def sendJsonToClient = {
+    def sendJsonToClient() = {
       println("Received event from Controller")
       out ! (gameController.toJson.toString)
     }
