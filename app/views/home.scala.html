@@ -3,9 +3,9 @@
 @import org.webjars.play.WebJarsUtil
 @import controllers.AssetsFinder
 
-@(user: models.User)(implicit request: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+@()(implicit request: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 
-@main(messages("home.title"), Some(user)) {
+@main(messages("home.title"), None) {
     
 
     <div class="card">

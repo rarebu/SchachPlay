@@ -12,7 +12,7 @@ GET     /resize/:size               controllers.SudokuController.resize(size:Int
 GET     /set/:row/:col/:value       controllers.SudokuController.set(row:Int,col:Int, value:Int)
 GET     /showCandidates/:row/:col   controllers.SudokuController.showCandidates(row:Int, col:Int)
 
-GET     /about                      controllers.ApplicationController.index
+#GET     /about                      controllers.ApplicationController.index
 
 GET     /json                       controllers.SudokuController.gridToJson
 
