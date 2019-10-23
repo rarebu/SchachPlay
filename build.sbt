@@ -1,13 +1,13 @@
 
-name := """HTWG-play-scala-seed"""
+name := """Sudoku in Scala for WebTech"""
 
-version := "1.0-SNAPSHOT"
+version := "1.2"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.8"
 
 libraryDependencies += guice
 
