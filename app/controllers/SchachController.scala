@@ -16,7 +16,7 @@ class SchachController @Inject()(cc: ControllerComponents) extends AbstractContr
   }
 
   def schach = Action {
-    Ok(schachAsText)
+    Ok(views.html.schach(gameController))
   }
 
 }

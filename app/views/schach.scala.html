@@ -1,0 +1,27 @@
+@(controller:de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface)
+
+
+@main("HTWG Schach") {
+    <div class="gamecontainer">
+        <div class="game">
+        @for(row <- 0 until 8) {
+            <div class="row">
+            @for(col <- 0 until 8) {
+                <span class="cell">
+                    <span class="content">
+                    @{
+                    var f = new String
+                    if(controller.cellIsBlack(row, col)) f = "b" else f = "w"
+                    val a = controller.cellContains(row, col)
+                    if(a == "") f = f + "_"
+                    else f = f + a
+                    f
+                    }
+                    </span>
+                </span>
+            }
+            </div>
+        }
+        </div>
+    </div>
+}
