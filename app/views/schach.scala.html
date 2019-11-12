@@ -1,5 +1,11 @@
 @(controller:de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface)
 
+@getContent(row:Int, col:Int)= {
+    <span class="content">
+    @{
+    controller.cellContains(row, col)
+    }
+    </span>}
 
 @main("HTWG Schach") {
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")' />
@@ -8,18 +14,15 @@
         @for(row <- 0 until 8) {
             <div class="row">
             @for(col <- 0 until 8) {
-                <span class="cell">
-                    <span class="content">
-                    @{
-                    var f = new String
-//                    if(controller.cellIsBlack(row, col)) f = "b" else f = "w"
-                    val a = controller.cellContains(row, col)
-                    if(a == "") f = f + "_"
-                    else f = f + a
-                    f
-                    }
+                @if(controller.cellIsBlack(row, col)) {
+                    <span class="blackcell">
+                        @getContent(row, col)
                     </span>
-                </span>
+                } else {
+                    <span class="whitecell">
+                        @getContent(row, col)
+                    </span>
+                }
             }
             <div class="clear"></div>
             </div>

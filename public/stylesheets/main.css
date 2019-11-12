@@ -1,6 +1,6 @@
 .gamecontainer {
     height: 100%;
-    width: 39%;
+    width: 24%;
     margin: 1em;
     display:flex;
     font-size:40px;
@@ -24,7 +24,7 @@
     clear:both;
 }
 
-.cell {
+.blackcell {
     display: inline-block;
     float:left;
     border-style: outset;
@@ -35,6 +35,21 @@
     height: 1.2em;
     margin:0.1em;
     text-align: center;
+    background-color: darkgrey;
+}
+
+.whitecell {
+    display: inline-block;
+    float:left;
+    border-style: outset;
+    border-width: 0.05em;
+    background-color: #E0E0FF;
+    border-color: #f6f6FF;
+    width: 1.2em;
+    height: 1.2em;
+    margin:0.1em;
+    text-align: center;
+    background-color: white;
 }
 
 .row {
