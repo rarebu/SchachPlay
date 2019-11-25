@@ -5,6 +5,8 @@
 # Controller for Sudoku
 
 GET     /                           controllers.SchachController.schach
+GET     /new                        controllers.SchachController.newField
+GET     /cellPressed/:row/:col       controllers.SchachController.cellPressed(row:Int, col:Int)
 
 GET     /about                      controllers.SchachController.about
 

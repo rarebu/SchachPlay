@@ -1,11 +1,19 @@
-@(controller:de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface)
+@(controller:de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface, message:String)
 
-@getContent(row:Int, col:Int)= {
-    <span class="content">
-    @{
-    controller.cellContains(row, col)
-    }
-    </span>}
+@size= @{8}
+
+@toScalar(rowIter:Int, colIter:Int)=@{rowIter*size + colIter}
+@row(scalar:Int)=@{scalar / size}
+@col(scalar:Int)=@{scalar % size}
+
+@getContent(rowIter:Int, colIter:Int)= {
+    <div class="content">  @{
+        controller.cellContains(rowIter, colIter)
+        }
+
+    </div>}
+
+
 
 @main("HTWG Schach") {
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")' />
@@ -22,26 +30,28 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
                 </li>
-@*                <li class="nav-item">*@
-@*                    <a class="nav-link" href="/new">New</a>*@
-@*                </li>*@
+                <li class="nav-item">
+                    <a class="nav-link" href="/new">New</a>
+                </li>
             </ul>
         </div>
     </nav>
 
     <div class="gamecontainer">
         <div class="game">
-        @for(row <- 0 until 8) {
+        @for(rowIter <- 0 until 8) {
             <div class="row">
-            @for(col <- 0 until 8) {
-                @if(controller.cellIsBlack(row, col)) {
-                    <span class="blackcell">
-                        @getContent(row, col)
-                    </span>
+            @for(colIter <- 0 until 8) {
+                @if(controller.cellIsBlack(rowIter, colIter)) {
+                    <a STYLE="color: rgb(255,255,255)" href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                    <div class="blackcell">
+                        @getContent(rowIter, colIter)
+                    </div></a>
                 } else {
-                    <span class="whitecell">
-                        @getContent(row, col)
-                    </span>
+                    <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                    <div class="whitecell">
+                        @getContent(rowIter, colIter)
+                    </div></a>
                 }
             }
             <div class="clear"></div>
