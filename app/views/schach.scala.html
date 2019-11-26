@@ -1,18 +1,26 @@
-@(controller:de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface, message:String)
+@(controller: de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface, message: String)
 
-@size= @{8}
+@size = @{
+    8
+}
 
-@toScalar(rowIter:Int, colIter:Int)=@{rowIter*size + colIter}
-@row(scalar:Int)=@{scalar / size}
-@col(scalar:Int)=@{scalar % size}
+@toScalar(rowIter: Int, colIter: Int) = @{
+    rowIter * size + colIter
+}
+@row(scalar: Int) = @{
+    scalar / size
+}
+@col(scalar: Int) = @{
+    scalar % size
+}
 
-@getContent(rowIter:Int, colIter:Int)= {
+@getContent(rowIter: Int, colIter: Int) = {
     <div class="content">  @{
         controller.cellContains(rowIter, colIter)
-        }
+    }
 
-    </div>}
-
+    </div>
+}
 
 
 @main("HTWG Schach") {
@@ -28,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/about">About <div class="sr-only">(current)</div></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/new">New</a>
@@ -37,26 +45,31 @@
         </div>
     </nav>
 
-    <div class="gamecontainer">
-        <div class="game">
-        @for(rowIter <- 0 until 8) {
-            <div class="row">
-            @for(colIter <- 0 until 8) {
-                @if(controller.cellIsBlack(rowIter, colIter)) {
-                    <a STYLE="color: rgb(255,255,255)" href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
-                    <div class="blackcell">
-                        @getContent(rowIter, colIter)
-                    </div></a>
-                } else {
-                    <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
-                    <div class="whitecell">
-                        @getContent(rowIter, colIter)
-                    </div></a>
-                }
+    <div class="pagecontainer">
+        <div class="gamecontainer">
+            <div class="game">
+            @for(rowIter <- 0 until 8) {
+                <div class="row">
+                    @for(colIter <- 0 until 8) {
+                        @if(controller.cellIsBlack(rowIter, colIter)) {
+                            <a STYLE="color: rgb(255, 255, 255)" href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                                <div class="blackcell">
+                                @getContent(rowIter, colIter)
+                                </div></a>
+                        } else {
+                            <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                                <div class="whitecell">
+                                @getContent(rowIter, colIter)
+                                </div></a>
+                        }
+                    }
+                <div class="clear"></div>
+                </div>
             }
-            <div class="clear"></div>
             </div>
-        }
+        </div>
+        <div class="alert alert-primary" role="alert">
+        @message
         </div>
     </div>
 }
