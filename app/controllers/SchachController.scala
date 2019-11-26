@@ -42,4 +42,13 @@ class SchachController @Inject()(cc: ControllerComponents) extends AbstractContr
     Ok(views.html.schach(gameController, message))
   }
 
+  def pawnPromoting:Option[String] = gameController.pawnPromoting
+
+  def getChangeableFigures:String = gameController.getChangeableFigures
+
+  def choose(representation:String) = Action {
+    gameController.choose(representation)
+    Ok(views.html.schach(gameController, message))
+  }
+
 }

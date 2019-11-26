@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/about">About <div class="sr-only">(current)</div></a>
+                    <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/new">New</a>
@@ -46,13 +46,21 @@
     </nav>
 
     <div class="pagecontainer">
+        @if(controller.pawnPromoting.isDefined) {
+            <div class="dialog">Please choose a figure:</div>
+            <ul class="choose">
+                @for(representation <- controller.pawnPromoting.get) {
+                    <a href="/choose/@representation"> <li class="representation"> @representation </li></a>
+                }
+            </ul>
+        }
         <div class="gamecontainer">
             <div class="game">
             @for(rowIter <- 0 until 8) {
                 <div class="row">
                     @for(colIter <- 0 until 8) {
                         @if(controller.cellIsBlack(rowIter, colIter)) {
-                            <a STYLE="color: rgb(255, 255, 255)" href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                            <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
                                 <div class="blackcell">
                                 @getContent(rowIter, colIter)
                                 </div></a>

@@ -6,7 +6,8 @@
 
 GET     /                           controllers.SchachController.schach
 GET     /new                        controllers.SchachController.newField
-GET     /cellPressed/:row/:col       controllers.SchachController.cellPressed(row:Int, col:Int)
+GET     /cellPressed/:row/:col      controllers.SchachController.cellPressed(row:Int, col:Int)
+GET     /choose/:figure             controllers.SchachController.choose(figure:String)
 
 GET     /about                      controllers.SchachController.about
 
