@@ -1,32 +1,85 @@
-@(controller:de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface)
+@(controller: de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface, message: String)
 
-@getContent(row:Int, col:Int)= {
-    <span class="content">
-    @{
-    controller.cellContains(row, col)
+@size = @{
+    8
+}
+
+@toScalar(rowIter: Int, colIter: Int) = @{
+    rowIter * size + colIter
+}
+@row(scalar: Int) = @{
+    scalar / size
+}
+@col(scalar: Int) = @{
+    scalar % size
+}
+
+@getContent(rowIter: Int, colIter: Int) = {
+    <div class="content">  @{
+        controller.cellContains(rowIter, colIter)
     }
-    </span>}
+
+    </div>
+}
+
 
 @main("HTWG Schach") {
-    <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")' />
-    <div class="gamecontainer">
-        <div class="game">
-        @for(row <- 0 until 8) {
-            <div class="row">
-            @for(col <- 0 until 8) {
-                @if(controller.cellIsBlack(row, col)) {
-                    <span class="blackcell">
-                        @getContent(row, col)
-                    </span>
-                } else {
-                    <span class="whitecell">
-                        @getContent(row, col)
-                    </span>
-                }
+    <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/schach.css")' />
+    <script src='@routes.Assets.versioned("javascripts/bootstrap.min.js")'> </script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">HTWG Schach</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/new">New</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="pagecontainer">
+        @if(controller.pawnPromoting.isDefined) {
+            <label>
+                Please choose a figure:
+            </label>
+            <div class="btn-group">
+            @for(representation <- controller.pawnPromoting.get) {
+                <a href="/choose/@representation" class="btn btn-primary">@representation </a>
             }
-            <div class="clear"></div>
             </div>
         }
+        <div class="gamecontainer">
+            <div class="game">
+            @for(rowIter <- 0 until 8) {
+                <div class="row">
+                    @for(colIter <- 0 until 8) {
+                        @if(controller.cellIsBlack(rowIter, colIter)) {
+                            <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                                <div class="blackcell">
+                                @getContent(rowIter, colIter)
+                                </div></a>
+                        } else {
+                            <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
+                                <div class="whitecell">
+                                @getContent(rowIter, colIter)
+                                </div></a>
+                        }
+                    }
+                <div class="clear"></div>
+                </div>
+            }
+            </div>
+        </div>
+        <div class="alert alert-primary" role="alert">
+        @message
         </div>
     </div>
 }
