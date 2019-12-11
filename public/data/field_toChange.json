@@ -1,0 +1,188 @@
+{
+   "field" : {
+      "figurePositions" : [
+         {
+            "col" : 0,
+            "isBlack" : true,
+            "kind" : "Rook",
+            "row" : 0
+         },
+         {
+            "col" : 1,
+            "isBlack" : true,
+            "kind" : "Knight",
+            "row" : 0
+         },
+         {
+            "col" : 2,
+            "isBlack" : true,
+            "kind" : "Bishop",
+            "row" : 0
+         },
+         {
+            "col" : 3,
+            "isBlack" : true,
+            "kind" : "Queen",
+            "row" : 0
+         },
+         {
+            "col" : 4,
+            "isBlack" : true,
+            "kind" : "King",
+            "row" : 0
+         },
+         {
+            "col" : 5,
+            "isBlack" : true,
+            "kind" : "Bishop",
+            "row" : 0
+         },
+         {
+            "col" : 6,
+            "isBlack" : true,
+            "kind" : "Knight",
+            "row" : 0
+         },
+         {
+            "col" : 7,
+            "isBlack" : true,
+            "kind" : "Rook",
+            "row" : 0
+         },
+         {
+            "col" : 0,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 1,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 2,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 4,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 5,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 6,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 7,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 1
+         },
+         {
+            "col" : 0,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 1,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 2,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 3,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 5,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 6,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 7,
+            "isBlack" : false,
+            "kind" : "Pawn",
+            "row" : 6
+         },
+         {
+            "col" : 0,
+            "isBlack" : false,
+            "kind" : "Rook",
+            "row" : 7
+         },
+         {
+            "col" : 1,
+            "isBlack" : false,
+            "kind" : "Knight",
+            "row" : 7
+         },
+         {
+            "col" : 2,
+            "isBlack" : false,
+            "kind" : "Bishop",
+            "row" : 7
+         },
+         {
+            "col" : 3,
+            "isBlack" : true,
+            "kind" : "Pawn",
+            "row" : 7
+         },
+         {
+            "col" : 4,
+            "isBlack" : false,
+            "kind" : "King",
+            "row" : 7
+         },
+         {
+            "col" : 5,
+            "isBlack" : false,
+            "kind" : "Bishop",
+            "row" : 7
+         },
+         {
+            "col" : 6,
+            "isBlack" : false,
+            "kind" : "Knight",
+            "row" : 7
+         },
+         {
+            "col" : 7,
+            "isBlack" : false,
+            "kind" : "Rook",
+            "row" : 7
+         }
+      ],
+      "size" : 30,
+      "toChange" : "♛♜♝♞"
+   }
+}

@@ -17,7 +17,7 @@ class SchachController @Inject()(cc: ControllerComponents) extends AbstractContr
     if(previousSelectedCell.isDefined) {
       val coordinates = previousSelectedCell.get
       previousSelectedCell = Option.empty
-      move(coordinates._1, coordinates._2, row, col)
+      moveIntern(coordinates._1, coordinates._2, row, col)
     } else {
       previousSelectedCell = Option.apply((row, col))
       Ok(views.html.schach(gameController, message))
@@ -37,9 +37,13 @@ class SchachController @Inject()(cc: ControllerComponents) extends AbstractContr
     Ok(views.html.schach(gameController, message))
   }
 
-  def move(row:Int, col:Int, newRow:Int, newCol:Int) = {
+  private def moveIntern(row:Int, col:Int, newRow:Int, newCol:Int) = {
     gameController.move(row, col, newRow, newCol)
     Ok(views.html.schach(gameController, message))
+  }
+
+  def move(row:Int, col:Int, newRow:Int, newCol:Int) = Action {
+    moveIntern(row, col, newRow, newCol)
   }
 
   def pawnPromoting:Option[String] = gameController.pawnPromoting
@@ -49,6 +53,10 @@ class SchachController @Inject()(cc: ControllerComponents) extends AbstractContr
   def choose(representation:String) = Action {
     gameController.choose(representation)
     Ok(views.html.schach(gameController, message))
+  }
+
+  def fieldToJson = Action {
+    Ok(gameController.toJson)
   }
 
 }
