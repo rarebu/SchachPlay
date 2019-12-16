@@ -25,7 +25,6 @@
 
 @main("HTWG Schach") {
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/schach.css")' />
-    <script src='@routes.Assets.versioned("javascripts/bootstrap.min.js")'> </script>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">HTWG Schach</a>
@@ -46,31 +45,15 @@
     </nav>
 
     <div class="pagecontainer">
-        @if(controller.pawnPromoting.isDefined) {
-            <label>
-                Please choose a figure:
-            </label>
-            <div class="btn-group">
-            @for(representation <- controller.pawnPromoting.get) {
-                <a href="/choose/@representation" class="btn btn-primary">@representation </a>
-            }
-            </div>
-        }
         <div class="gamecontainer">
             <div class="game">
             @for(rowIter <- 0 until 8) {
                 <div class="row">
                     @for(colIter <- 0 until 8) {
                         @if(controller.cellIsBlack(rowIter, colIter)) {
-                            <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
-                                <div class="blackcell">
-                                @getContent(rowIter, colIter)
-                                </div></a>
+                                <div class="blackcell" id="scalar@{toScalar(rowIter, colIter)}"></div>
                         } else {
-                            <a href="/cellPressed/@row(toScalar(rowIter, colIter))/@col(toScalar(rowIter, colIter))">
-                                <div class="whitecell">
-                                @getContent(rowIter, colIter)
-                                </div></a>
+                                <div class="whitecell" id="scalar@{toScalar(rowIter, colIter)}"></div>
                         }
                     }
                 <div class="clear"></div>
@@ -78,7 +61,7 @@
             }
             </div>
         </div>
-        <div class="alert alert-primary" role="alert">
+        <div id="gamestatus" class="alert alert-primary" role="alert">
         @message
         </div>
     </div>
