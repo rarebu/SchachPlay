@@ -31,10 +31,10 @@ function chooseFigure(index) {
     $.get({
         url: "/choose/"+figure,
         success: console.log("Set figure on Server"),
+        //wech
         async: false
     });
     location.replace(location.origin);
-    loadJson();
 }
 
 function appendButton(item, index) {
@@ -96,7 +96,6 @@ function gotClick(scalar) {
         console.log("Got click and moved from: " + clickBuffer + ", to: " + scalar);
         setCellOnServer(row(clickBuffer), col(clickBuffer), row(scalar), col(scalar));
         clickBuffer = null;
-        loadJson()
     }
 }
 
@@ -107,13 +106,11 @@ function registerClickListener() {
 }
 
 function setCellOnServer(row, col, newRow, newCol) {
-    $.get({
-        url: "/move/"+row+"/"+col+"/"+newRow+"/"+newCol,
-        success: console.log("Set move on Server"),
-        async: false
-   })
+    $.get("/move/"+row+"/"+col+"/"+newRow+"/"+newCol, function (data) {
+        console.log("Set move on Server")
+    });
 }
-let tmp = true;
+
 function loadJson() {
     $.ajax({
         method: "GET",
@@ -126,19 +123,48 @@ function loadJson() {
             grid.fill(result.field)
             grid.handleToChange(result.field.toChange)
             updateGrid(grid);
-            if (tmp) {
-                registerClickListener();
-                tmp = false;
-            }
+            registerClickListener();
             grid.updateGameStatus(result.message);
 
         }
     })
 }
 
+function connectWebSocket() {
+    var websocket = new WebSocket("ws://localhost:9000/websocket");
+    websocket.setTimeout;
+
+    websocket.onopen = function () {
+        console.log("Connected to Websocket");
+    };
+
+    websocket.onclose = function () {
+        console.log('Connection with Websocket Closed!');
+    };
+
+    websocket.onerror = function (error) {
+        console.log('Error in Websocket Occured: ' + error);
+    };
+
+    websocket.onmessage = function (e) {
+        console.log('Got event from server');
+        if (typeof e.data === "string") {
+            console.log('Data was sent');
+            let json = JSON.parse(e.data);
+            grid = new Grid();
+            grid.fill(json.field);
+            grid.handleToChange(json.field.toChange)
+            updateGrid(grid);
+            grid.updateGameStatus(json.message);
+        }
+
+    };
+}
+
 $( document ).ready(function() {
     console.log( "Document is ready, filling grid" );
     loadJson();
+    connectWebSocket();
 });
 
 
