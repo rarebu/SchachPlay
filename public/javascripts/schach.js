@@ -23,18 +23,18 @@ function isBlack(isBlack) {
 function jsonFiguretoFigure(input) {
     return figures.get((isBlack(input.isBlack) + input.kind));
 }
-let tmpToChange = ""
+let tmpToChange = "";
+let tmpField = "";
 
 function chooseFigure(index) {
     let figure = tmpToChange.split("")[index];
     console.log(figure + " was choosed");
-    $.get({
-        url: "/choose/"+figure,
-        success: console.log("Set figure on Server"),
-        //wech
-        async: false
+    $("div.pagecontainer").html(tmpField);
+    registerClickListener();
+    tmpField = "";
+    $.get("/choose/"+figure, function (data) {
+        console.log("Set figure on Server")
     });
-    location.replace(location.origin);
 }
 
 function appendButton(item, index) {
@@ -62,7 +62,7 @@ class Grid {
             tmpToChange = json;
             html = html + json.split('').map((char, index) => appendButton(char, index)).join('');
             html = html + "</div>";
-            console.log(html);
+            tmpField = $("div.pagecontainer").html();
             $("div.pagecontainer").html(html);
             for (let index=0; index < 4;index++) {
                 $("#figure"+index).click(function() {chooseFigure(index)});
