@@ -14,5 +14,7 @@ GET     /about                              controllers.SchachController.about
 
 GET     /json                               controllers.SchachController.fieldToJson
 
+GET     /websocket                          controllers.SchachController.socket
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
