@@ -24,6 +24,9 @@
 
 
 @main("HTWG Schach") {
+    <script src="@routes.Assets.versioned("javascripts/vue.js")" ></script>
+    <script src="@routes.Assets.versioned("javascripts/schachVue.js")" ></script>
+
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/schach.css")' />
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -44,23 +47,10 @@
         </div>
     </nav>
 
-    <div class="pagecontainer">
-        <div class="gamecontainer">
-            <div class="game">
-            @for(rowIter <- 0 until 8) {
-                <div class="row">
-                    @for(colIter <- 0 until 8) {
-                        @if(controller.cellIsBlack(rowIter, colIter)) {
-                                <div class="blackcell" id="scalar@{toScalar(rowIter, colIter)}"></div>
-                        } else {
-                                <div class="whitecell" id="scalar@{toScalar(rowIter, colIter)}"></div>
-                        }
-                    }
-                <div class="clear"></div>
-                </div>
-            }
-            </div>
-        </div>
+    <div id="schach-game" class="pagecontainer">
+
+        <schach-field></schach-field>
+
         <div id="gamestatus" class="alert alert-primary" role="alert">
         @message
         </div>
