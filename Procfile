@@ -1,2 +1,2 @@
-web: target/universal/stage/bin/play-silhouette-seed -Dhttp.port=${PORT}
+web: target/universal/stage/bin/SchachPlay -Dhttp.port=${PORT}
 -Dconfig.resource=${PLAY_CONF_FILE}
