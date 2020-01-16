@@ -1,2 +1,2 @@
-web: target/universal/stage/bin/Schach -Dhttp.port=${PORT}
+web: target/universal/stage/bin -Dhttp.port=${PORT}
 -Dconfig.resource=${PLAY_CONF_FILE}
