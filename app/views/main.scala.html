@@ -25,18 +25,19 @@
         @Html(webJarsUtil.css("bootstrap.min.css"))
         @Html(webJarsUtil.css("bootstrap-theme.min.css"))
 
-        <!-- Bootstrap CSS -->
+            <!-- Bootstrap CSS -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bootstrap CSS on CDN server, set contentSecurityPolicy in application.conf to allow these URLs-->
+            <!-- Bootstrap CSS on CDN server, set contentSecurityPolicy in application.conf to allow these URLs-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
-        <!-- Bootstrap on your own server
-        <link rel="stylesheet" href="@assets.path("stylesheets/bootstrap.min.css")" >
+            <!-- Bootstrap on your own server
+        <link rel="stylesheet" href=" @assets.path("stylesheets/bootstrap.min.css")
+            " >
 
 
         <script src="@assets.path("javascripts/bootstrap.min.js")" ></script>-->
@@ -56,36 +57,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="@controllers.routes.ApplicationController.index">HTWG Sudoku</a>
+                    <a class="navbar-brand" href="@controllers.routes.ApplicationController.index">HTWG Schach</a>
                 </div>
                 <nav class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/about">About <span class="sr-only">(current)</span></a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/new">New</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/solve">Solve</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Highlight
-                            </a>
-                            <div id="sudoku-vue-menu" class=" dropdown-menu"  aria-labelledby="navbarDropdown">
-                                <a  v-for="item in menuItems" class="dropdown-item" v-bind:href="item.link">{{item.text}}</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Size
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/resize/9">Large (9*9)</a>
-                                <a class="dropdown-item" href="/resize/4">Small (4*4)</a>
-                                <a class="dropdown-item" href="resize/1">Tiny (1*1)</a>
-                            </div>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -132,9 +109,8 @@
         <script src="@assets.path("javascripts/zxcvbnShim.js")"></script>
         @* And here's where we render the `Html` object containing
         * the page content. *@
-        @content
 
-        <!-- Bootstrap code on CDN server, set contentSecurityPolicy in application.conf to allow these URLs-->
+            <!-- Bootstrap code on CDN server, set contentSecurityPolicy in application.conf to allow these URLs-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
