@@ -34,10 +34,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
-            <!-- Bootstrap on your own server
-        <link rel="stylesheet" href=" @assets.path("stylesheets/bootstrap.min.css")
-            " >
-
 
         <script src="@assets.path("javascripts/bootstrap.min.js")" ></script>-->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
@@ -103,7 +99,7 @@
             </div>
         </main>
         @Html(webJarsUtil.script("jquery.min.js"))
-        @Html(webJarsUtil.script("bootstrap.min.js"))
+        <!--@Html(webJarsUtil.script("bootstrap.min.js")) -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
         <script src="@assets.path("javascripts/zxcvbnShim.js")"></script>
         @* And here's where we render the `Html` object containing
