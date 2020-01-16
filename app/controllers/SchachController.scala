@@ -43,9 +43,9 @@ class SchachController @Inject()(
     }
   }
 
-  def about = Action {
-    Ok(views.html.index())
-  }
+  /*def about = Action {
+    Ok(views.html.home())
+  }*/
 
   def schach = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
