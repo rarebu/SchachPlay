@@ -48,3 +48,5 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 routesImport += "utils.route.Binders._"
+
+resolvers += "Atlassian Maven" at "https://maven.atlassian.com/content/repositories/atlassian-public/"
