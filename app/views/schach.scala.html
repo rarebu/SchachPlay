@@ -1,4 +1,9 @@
-@(controller: de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface, message: String)
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import org.webjars.play.WebJarsUtil
+@import controllers.AssetsFinder
+
+@(controller: de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.ControllerInterface, message: String, user: models.User)(implicit request: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 
 @size = @{
     8
@@ -23,7 +28,7 @@
 }
 
 
-@main("HTWG Schach") {
+@main("HTWG Schach", Some(user)) {
     <script src="@routes.Assets.versioned("javascripts/vue.js")" ></script>
     <script src="@routes.Assets.versioned("javascripts/schachVue.js")" ></script>
 

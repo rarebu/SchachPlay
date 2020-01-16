@@ -7,56 +7,71 @@ import de.htwg.se.Schach.controller.controllerComponent.controllerBaseImpl.{Cell
 import play.api.libs.streams.ActorFlow
 import akka.actor._
 import akka.stream.Materializer
-
+import play.api.i18n.I18nSupport
+import utils.auth.DefaultEnv
+import org.webjars.play.WebJarsUtil
+import com.mohiva.play.silhouette.api.Silhouette
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import scala.concurrent.Future
 import scala.swing.Reactor
 
 @Singleton
-class SchachController @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) {
+class SchachController @Inject()(
+                                  components: ControllerComponents,
+                                  silhouette: Silhouette[DefaultEnv]
+                                )(
+                                  implicit
+                                  webJarsUtil: WebJarsUtil,
+                                  assets: AssetsFinder,
+                                  system: ActorSystem,
+                                  mat: Materializer
+                                ) extends AbstractController(components) with I18nSupport {
   val gameController = Schach.controller
-  var previousSelectedCell:Option[(Int,Int)] = Option.empty
-  def message:String = GameStatus.message(gameController.gameStatus)
-  def schachAsText =  gameController.fieldToString + message
+  var previousSelectedCell: Option[(Int, Int)] = Option.empty
+  def message: String = GameStatus.message(gameController.gameStatus)
+  def schachAsText = gameController.fieldToString + message
 
-  def cellPressed(row:Int, col:Int):Action[AnyContent] = Action {
-    if(previousSelectedCell.isDefined) {
+  def cellPressed(row: Int, col: Int) = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    if (previousSelectedCell.isDefined) {
       val coordinates = previousSelectedCell.get
       previousSelectedCell = Option.empty
       moveIntern(coordinates._1, coordinates._2, row, col)
+      Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
     } else {
       previousSelectedCell = Option.apply((row, col))
-      Ok(views.html.schach(gameController, message))
+      Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
     }
   }
 
-  def about= Action {
+  def about = Action {
     Ok(views.html.index())
   }
 
-  def schach = Action {
-    Ok(views.html.schach(gameController, message))
+  def schach = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
   }
 
-  def newField = Action {
+  def newField = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     gameController.newField
-    Ok(views.html.schach(gameController, message))
+    Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
   }
 
-  private def moveIntern(row:Int, col:Int, newRow:Int, newCol:Int) = {
+  private def moveIntern(row: Int, col: Int, newRow: Int, newCol: Int) = {
     gameController.move(row, col, newRow, newCol)
-    Ok(views.html.schach(gameController, message))
   }
 
-  def move(row:Int, col:Int, newRow:Int, newCol:Int) = Action {
+  def move(row: Int, col: Int, newRow: Int, newCol: Int) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     moveIntern(row, col, newRow, newCol)
+    Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
   }
 
-  def pawnPromoting:Option[String] = gameController.pawnPromoting
+  def pawnPromoting: Option[String] = gameController.pawnPromoting
 
-  def getChangeableFigures:String = gameController.getChangeableFigures
+  def getChangeableFigures: String = gameController.getChangeableFigures
 
-  def choose(representation:String) = Action {
+  def choose(representation: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     gameController.choose(representation)
-    Ok(views.html.schach(gameController, message))
+    Future.successful(Ok(views.html.schach(gameController, message, request.identity)))
   }
 
   def fieldToJson = Action {
@@ -76,7 +91,7 @@ class SchachController @Inject()(cc: ControllerComponents) (implicit system: Act
     }
   }
 
-  class SchachWebSocketActor(out: ActorRef) extends Actor with Reactor{
+  class SchachWebSocketActor(out: ActorRef) extends Actor with Reactor {
     listenTo(gameController)
 
     override def receive = {
