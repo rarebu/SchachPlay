@@ -131,7 +131,7 @@ function loadJson() {
 }
 
 function connectWebSocket() {
-    var websocket = new WebSocket("ws://localhost:9000/websocket");
+    var websocket = new WebSocket("ws://chessplay-htwg.herokuapp.com/websocket");
     websocket.setTimeout;
 
     websocket.onopen = function () {
