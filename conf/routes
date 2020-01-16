@@ -10,7 +10,7 @@ GET     /cellPressed/:row/:col              controllers.SchachController.cellPre
 GET     /move/:row/:col/:newRow/:newCol     controllers.SchachController.move(row:Int, col:Int, newRow:Int, newCol:Int)
 GET     /choose/:figure                     controllers.SchachController.choose(figure:String)
 
-GET     /about                              controllers.SchachController.about
+#GET     /about                              controllers.SchachController.about
 
 GET     /json                               controllers.SchachController.fieldToJson
 

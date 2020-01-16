@@ -2,31 +2,38 @@ package controllers
 
 import java.net.URLDecoder
 import java.util.UUID
+import javax.inject.Inject
 
-import com.mohiva.play.silhouette
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import models.services.{AuthTokenService, UserService}
-import javax.inject.Inject
 import play.api.i18n.{I18nSupport, Messages}
-import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Results, Request}
 import play.api.libs.mailer.{Email, MailerClient}
+import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 import utils.auth.DefaultEnv
-import utils.route.Calls
-//import com.mohiva.play.silhouette.api.LoginInfo
 
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * The `Activate Account` controller.
+ *
+ * @param components       The Play controller components.
+ * @param silhouette       The Silhouette stack.
+ * @param userService      The user service implementation.
+ * @param authTokenService The auth token service implementation.
+ * @param mailerClient     The mailer client.
+ * @param ex               The execution context.
  */
-class ActivateAccountController @Inject()(
-                                           components: ControllerComponents,
-                                           silhouette: Silhouette[DefaultEnv],
-                                           userService: UserService,
-                                           authTokenService: AuthTokenService,
-                                           mailerClient: MailerClient
-                                         )(implicit ex: ExecutionContext) extends AbstractController(components) with I18nSupport {
+class ActivateAccountController @Inject() (
+                                            components: ControllerComponents,
+                                            silhouette: Silhouette[DefaultEnv],
+                                            userService: UserService,
+                                            authTokenService: AuthTokenService,
+                                            mailerClient: MailerClient
+                                          )(
+                                            implicit
+                                            ex: ExecutionContext
+                                          ) extends AbstractController(components) with I18nSupport {
 
   /**
    * Sends an account activation email to the user with the given email.
@@ -37,7 +44,7 @@ class ActivateAccountController @Inject()(
   def send(email: String) = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     val decodedEmail = URLDecoder.decode(email, "UTF-8")
     val loginInfo = LoginInfo(CredentialsProvider.ID, decodedEmail)
-    val result = Results.Redirect(Calls.signin).flashing("info" -> Messages("activation.email.sent", decodedEmail))
+    val result = Redirect(routes.SignInController.view()).flashing("info" -> Messages("activation.email.sent", decodedEmail))
 
     userService.retrieve(loginInfo).flatMap {
       case Some(user) if !user.activated =>
@@ -68,11 +75,11 @@ class ActivateAccountController @Inject()(
       case Some(authToken) => userService.retrieve(authToken.userID).flatMap {
         case Some(user) if user.loginInfo.providerID == CredentialsProvider.ID =>
           userService.save(user.copy(activated = true)).map { _ =>
-            Results.Redirect(Calls.signin).flashing("success" -> Messages("account.activated"))
+            Redirect(routes.SignInController.view()).flashing("success" -> Messages("account.activated"))
           }
-        case _ => Future.successful(Results.Redirect(Calls.signin).flashing("error" -> Messages("invalid.activation.link")))
+        case _ => Future.successful(Redirect(routes.SignInController.view()).flashing("error" -> Messages("invalid.activation.link")))
       }
-      case None => Future.successful(Results.Redirect(Calls.signin).flashing("error" -> Messages("invalid.activation.link")))
+      case None => Future.successful(Redirect(routes.SignInController.view()).flashing("error" -> Messages("invalid.activation.link")))
     }
   }
 }
